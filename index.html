@@ -287,7 +287,7 @@
 
         function checkAnswers() {
             let score = 0;
-            let startTime = performance.now();
+            const startTime = performance.now();
 
             questions.forEach((q, index) => {
                 const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
@@ -296,14 +296,14 @@
                 }
             });
 
-            let elapsedTime = (performance.now() - startTime) / 1000; // Calculate time in seconds
+            const elapsedTime = (performance.now() - startTime) / 1000; // Calcula o tempo em segundos
 
             document.getElementById('result').innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
 
-            // Save score to localStorage
+            // Salva a pontuação no placar
             saveScore(score, elapsedTime);
 
-            // Show leaderboard button
+            // Mostra o botão para ver o placar de líderes
             document.getElementById('viewLeaderboard').style.display = 'inline-block';
         }
 
@@ -311,7 +311,7 @@
             const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
             const playerName = prompt("Digite seu nome para salvar no placar de líderes:");
             leaderboard.push({ name: playerName, score, time });
-            leaderboard.sort((a, b) => b.score - a.score || a.time - b.time); // Sort by score then by time
+            leaderboard.sort((a, b) => b.score - a.score || a.time - b.time); // Ordena por pontuação, depois por tempo
             localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
         }
 
@@ -327,7 +327,7 @@
             document.getElementById('leaderboard').style.display = 'block';
         }
 
-        // Load quiz on page load
+        // Carrega o quiz ao carregar a página
         window.onload = loadQuiz;
     </script>
 </body>
