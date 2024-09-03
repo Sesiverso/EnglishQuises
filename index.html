@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz sobre "Will" e "Be"</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-image: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+        }
+
+        h1 {
+            color: #1a237e;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+        }
+
+        .question p {
+            font-size: 1.2em;
+            margin: 0 0 10px;
+            color: #1a237e;
+        }
+
+        .question .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question .options li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .question .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #1a237e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #0d47a1;
+            transform: translateY(-3px);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #1a237e;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Quiz sobre "Will" e "Be"</h1>
+    
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Verificar Respostas</button>
+
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Qual frase está correta?",
+                options: [
+                    "I will go to the market tomorrow.",
+                    "I am going to the market tomorrow.",
+                    "I will going to the market tomorrow.",
+                    "I will to the market tomorrow.",
+                    "I will be to the market tomorrow."
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual a forma correta de usar o verbo 'be' no futuro?",
+                options: [
+                    "I will be happy.",
+                    "I will been happy.",
+                    "I will being happy.",
+                    "I will are happy.",
+                    "I will is happy."
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Como se diz 'Eles vão viajar no próximo mês' em inglês?",
+                options: [
+                    "They will travel next month.",
+                    "They are travel next month.",
+                    "They will be travel next month.",
+                    "They be travel next month.",
+                    "They will traveling next month."
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual é a forma contraída de 'I will'?",
+                options: [
+                    "I'll",
+                    "I'ill",
+                    "I'will",
+                    "I'wil",
+                    "I'wll"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Como se forma a negativa de 'I will go'?",
+                options: [
+                    "I will not go.",
+                    "I not will go.",
+                    "I will no go.",
+                    "I won't go.",
+                    "I don't will go."
+                ],
+                correctAnswer: 3
+            },
+            {
+                question: "Qual frase está no futuro?",
+                options: [
+                    "She will finish her homework.",
+                    "She finishes her homework.",
+                    "She finished her homework.",
+                    "She is finishing her homework.",
+                    "She was finishing her homework."
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Como se diz 'Eu serei médico' em inglês?",
+                options: [
+                    "I will be a doctor.",
+                    "I will be doctor.",
+                    "I will been a doctor.",
+                    "I am will be a doctor.",
+                    "I will being a doctor."
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual frase está incorreta?",
+                options: [
+                    "I will go to the party.",
+                    "I will to go to the party.",
+                    "I will be there.",
+                    "I will bring the cake.",
+                    "I will arrive early."
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Qual é a pergunta correta?",
+                options: [
+                    "Will you come to the party?",
+                    "Will you comes to the party?",
+                    "Will you coming to the party?",
+                    "Will you be come to the party?",
+                    "Will you be comes to the party?"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Qual frase está no futuro contínuo?",
+                options: [
+                    "I will be working tomorrow.",
+                    "I will work tomorrow.",
+                    "I will working tomorrow.",
+                    "I am will be working tomorrow.",
+                    "I will be work tomorrow."
+                ],
+                correctAnswer: 0
+            }
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            shuffle(questions);
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                const questionText = document.createElement('p');
+                questionText.innerText = `${index + 1}. ${q.question}`;
+                questionDiv.appendChild(questionText);
+
+                shuffle(q.options);
+                
+                const optionsList = document.createElement('ul');
+                optionsList.className = 'options';
+                
+                q.options.forEach((option, i) => {
+                    const optionItem = document.createElement('li');
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = `question${index}`;
+                    optionInput.value = i;
+                    optionItem.appendChild(optionInput);
+
+                    const optionLabel = document.createElement('label');
+                    optionLabel.innerText = option;
+                    optionItem.appendChild(optionLabel);
+
+                    optionsList.appendChild(optionItem);
+                });
+
+                questionDiv.appendChild(optionsList);
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && parseInt(selectedOption.value) === q.correctAnswer) {
+                    score++;
+                }
+            });
+
+            const result = document.getElementById('result');
+            result.innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>
