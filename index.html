@@ -128,8 +128,116 @@
 
     <script>
         const questions = [
-            // [mesmas perguntas anteriores]
-            // ...
+            {
+                question: "Qual frase usa 'will' corretamente?",
+                options: [
+                    "She will goes to school tomorrow.",
+                    "They will play soccer after school.",
+                    "He will going to the gym later.",
+                    "Will they plays guitar?",
+                    "I will to call you tonight."
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Qual destas frases é correta no futuro com 'will'?",
+                options: [
+                    "I will to finish my homework.",
+                    "She will coming to the party.",
+                    "They will attend the meeting tomorrow.",
+                    "Will you calls me later?",
+                    "He will to help you."
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "Qual frase está correta no futuro simples?",
+                options: [
+                    "You will to study for the test.",
+                    "Will he going to the cinema?",
+                    "She will helps me with the project.",
+                    "They will visit their grandparents.",
+                    "We will calls you later."
+                ],
+                correctAnswer: 3
+            },
+            {
+                question: "Escolha a frase correta:",
+                options: [
+                    "She will be late to the meeting.",
+                    "Will be they there on time?",
+                    "He will to attend the conference.",
+                    "We will be going to school.",
+                    "Will you be meets me there?"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Complete a frase: 'I ___ travel to London next year.'",
+                options: [
+                    "will to",
+                    "will be",
+                    "will",
+                    "will going",
+                    "will are"
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "Qual destas frases está correta?",
+                options: [
+                    "Will you be at home tonight?",
+                    "Will you to be at home tonight?",
+                    "Will be you at home tonight?",
+                    "Will you at home tonight?",
+                    "Will you are at home tonight?"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Escolha a frase correta:",
+                options: [
+                    "He will to help you with the task.",
+                    "Will you be able to finish?",
+                    "Will to she come to the party?",
+                    "They will are arrive soon.",
+                    "Will be he joining us?"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Complete a frase corretamente: 'They ___ arrive tomorrow.'",
+                options: [
+                    "will to",
+                    "will are",
+                    "will",
+                    "will be",
+                    "will going"
+                ],
+                correctAnswer: 2
+            },
+            {
+                question: "Qual frase está correta no futuro simples?",
+                options: [
+                    "We will attending the class tomorrow.",
+                    "They will arrive next week.",
+                    "She will going to the party.",
+                    "Will be you at the concert?",
+                    "Will to they visit us?"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Escolha a frase que usa 'will' corretamente:",
+                options: [
+                    "I will goes to the store.",
+                    "Will you call me later?",
+                    "She will are come to the meeting.",
+                    "Will be they there?",
+                    "He will to join us."
+                ],
+                correctAnswer: 1
+            }
         ];
 
         function shuffle(array) {
@@ -188,21 +296,22 @@
                 }
             });
 
-            let endTime = performance.now();
-            let timeTaken = Math.round((endTime - startTime) / 1000); // Tempo em segundos
+            let elapsedTime = (performance.now() - startTime) / 1000; // Calculate time in seconds
 
-            saveScore(score, timeTaken);
+            document.getElementById('result').innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
 
-            const result = document.getElementById('result');
-            result.innerText = `Você acertou ${score} de ${questions.length} perguntas em ${timeTaken} segundos!`;
+            // Save score to localStorage
+            saveScore(score, elapsedTime);
 
-            document.getElementById('viewLeaderboard').style.display = 'block';
+            // Show leaderboard button
+            document.getElementById('viewLeaderboard').style.display = 'inline-block';
         }
 
-        function saveScore(score, timeTaken) {
+        function saveScore(score, time) {
             const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-            leaderboard.push({ score, timeTaken });
-            leaderboard.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
+            const playerName = prompt("Digite seu nome para salvar no placar de líderes:");
+            leaderboard.push({ name: playerName, score, time });
+            leaderboard.sort((a, b) => b.score - a.score || a.time - b.time); // Sort by score then by time
             localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
         }
 
@@ -210,17 +319,16 @@
             const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
             const leaderboardList = document.getElementById('leaderboardList');
             leaderboardList.innerHTML = '';
-
-            leaderboard.forEach((entry, index) => {
+            leaderboard.forEach(entry => {
                 const listItem = document.createElement('li');
-                listItem.innerText = `${index + 1}. ${entry.score} acertos em ${entry.timeTaken} segundos`;
+                listItem.innerText = `${entry.name} - ${entry.score} pontos em ${entry.time.toFixed(2)} segundos`;
                 leaderboardList.appendChild(listItem);
             });
-
             document.getElementById('leaderboard').style.display = 'block';
         }
 
-        loadQuiz();
+        // Load quiz on page load
+        window.onload = loadQuiz;
     </script>
 </body>
 </html>
